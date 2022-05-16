@@ -1,9 +1,9 @@
 <?php
 if(!isset($conexion_mysql)){
-	$usuario='root';
-	$database='api_prueba';
-	$password='Asdf1234$';
-	$servidor='localhost';
+	$usuario='fk4dhu35ag9655n5';
+	$database='bjddmojp8y5box58';
+	$password='k4enjag0y0k2uike';
+	$servidor='u3r5w4ayhxzdrw87.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306';
 	$conexion_mysql=mysqli_connect($servidor,$usuario,$password,$database) or die("No se ha podido conectar a la BD MySQL");
 	if (!$conexion_mysql) {
 		echo "Error: No se pudo conectar a MySQL." . PHP_EOL;

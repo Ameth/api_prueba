@@ -47,7 +47,7 @@ if ( $method === 'POST' ) {//Guardar datos
         }
 
         //Insertar en la base de datos
-        $consOfertas="INSERT INTO `api_prueba`.`ofertas`(`nombre_oferta`, `estado`) VALUES ('".$data->nombre."','".$data->estado."')";
+        $consOfertas="INSERT INTO `ofertas`(`nombre_oferta`, `estado`) VALUES ('".$data->nombre."','".$data->estado."')";
         $sqlOfertas=mysqli_query($conexion_mysql,$consOfertas); 
         $newID=mysqli_insert_id($conexion_mysql);
 
@@ -57,7 +57,7 @@ if ( $method === 'POST' ) {//Guardar datos
             $relUsers=$data->usuarios;
 
             foreach ($relUsers as $value) {
-                $consRel="INSERT INTO `api_prueba`.`rel_oferta_usuario`(`id_oferta`, `id_usuario`) VALUES ('".$newID."','".$value."')";
+                $consRel="INSERT INTO `rel_oferta_usuario`(`id_oferta`, `id_usuario`) VALUES ('".$newID."','".$value."')";
                 $sqlRel=mysqli_query($conexion_mysql,$consRel); 
 
                 if(!$sqlRel){
@@ -108,7 +108,7 @@ if ( $method === 'POST' ) {//Guardar datos
             $where="WHERE `id_oferta`=".$_GET['id'];
         }
 
-        $consulta="SELECT * FROM `api_prueba`.`ofertas` $where";
+        $consulta="SELECT * FROM `ofertas` $where";
         $sql=mysqli_query($conexion_mysql,$consulta);
 
         $rowRes=array();
@@ -116,7 +116,7 @@ if ( $method === 'POST' ) {//Guardar datos
         if($sql){
             $i=0;
             while($row=mysqli_fetch_assoc($sql)){
-                $consUsers="SELECT * FROM `api_prueba`.`usuarios` WHERE id_usuario IN (SELECT id_usuario FROM `api_prueba`.`rel_oferta_usuario` WHERE id_oferta=".$row['id_oferta'].")";
+                $consUsers="SELECT * FROM `usuarios` WHERE id_usuario IN (SELECT id_usuario FROM `rel_oferta_usuario` WHERE id_oferta=".$row['id_oferta'].")";
                 if($sqlUsers=mysqli_query($conexion_mysql,$consUsers)){
                     $j=0;
                     while($rowUsers=mysqli_fetch_assoc($sqlUsers)){

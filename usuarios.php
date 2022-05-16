@@ -38,7 +38,7 @@ if ( $method === 'POST' ) {//Guardar datos
         }
 
         //Insertar en la base de datos
-        $consulta="INSERT INTO `api_prueba`.`usuarios`(`nombre`, `tipo_documento`, `documento`, `correo`) VALUES ('".$data->nombre."','".$data->tipo_documento."','".$data->documento."','".$data->correo."')";
+        $consulta="INSERT INTO `usuarios`(`nombre`, `tipo_documento`, `documento`, `correo`) VALUES ('".$data->nombre."','".$data->tipo_documento."','".$data->documento."','".$data->correo."')";
         $sql=mysqli_query($conexion_mysql,$consulta); 
 
         //Mostrar los mensajes de respuesta dependiendo del resultado
@@ -77,7 +77,7 @@ if ( $method === 'POST' ) {//Guardar datos
 
             include("conexion.php");
 
-            $consulta="SELECT * FROM `api_prueba`.`usuarios` WHERE `id_usuario`=$id";
+            $consulta="SELECT * FROM `usuarios` WHERE `id_usuario`=$id";
             $sql=mysqli_query($conexion_mysql,$consulta); 
             if($sql){
                 $row=mysqli_fetch_assoc($sql);
