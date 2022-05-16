@@ -5,7 +5,6 @@ require_once ('vendor/autoload.php');
 require_once ('utils.php');
 
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 $method = strtoupper( $_SERVER['REQUEST_METHOD'] );
 
