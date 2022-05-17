@@ -37,10 +37,7 @@ class utils
 
     public static function validarToken($pToken) {
         // $url = "http://localhost/api_prueba/auth.php";
-        $ar=explode("/",$_SERVER['REQUEST_URI']);
-        
-        // $url = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME']."/"."auth.php";
-        $url = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME']."/".($ar[1]!="" ? $ar[1]."/" : "")."auth.php";
+        $url = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME']."/auth.php";
         
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPHEADER,array("Authorization: Bearer ".$pToken));
