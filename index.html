@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+      integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+      integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prueba FrontEnd</title>
+  </head>
+  <body>
+    <div id="container" class="m-xl-5">
+      <div class="row">
+        <div class="col-md-3">
+          <form action="" id="frm" name="frm">
+            <p class="text-center font-weight-bold">NUEVO USUARIO</p>
+            <input
+              type="email"
+              class="form-control mb-sm-3"
+              id="email"
+              placeholder="Email"
+              required
+            />
+            <input
+              type="text"
+              class="form-control mb-sm-3"
+              id="nombre"
+              placeholder="Nombre(s)"
+              required
+            />
+            <input
+              type="text"
+              class="form-control mb-sm-3"
+              id="apellido"
+              placeholder="Apellido(s)"
+              required
+            />
+            <input
+              type="text"
+              class="form-control mb-sm-3 datepicker"
+              id="fecha_nac"
+              placeholder="Fecha nacimiento (AAAA/MM/DD)"
+              required
+            />
+            <button
+              id="btnAdd"
+              type="submit"
+              class="btn btn-primary btn-block mb-lg-3"
+            >
+              Agregar usuario
+            </button>
+            <div
+              id="alertSuccess"
+              class="alert alert-success d-none"
+              role="alert"
+            >
+              Usuario agregado exitosamente
+            </div>
+            <div id="alertError" class="alert alert-danger d-none" role="alert">
+              Ha ocurrido un error al agregar el usuario
+            </div>
+          </form>
+        </div>
+        <div class="col-md-9">
+          <table class="table table-sm table-striped">
+            <thead class="thead-light">
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Edad</th>
+              <th>Email</th>
+            </thead>
+            <tbody id="tDatos"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Insertar los datos nuevos en la tabla HTML
+      const insertarDatos = ({
+        id,
+        first_name,
+        last_name,
+        birthday,
+        email,
+      }) => {
+        const list = document.getElementById("tDatos");
+        const tr = document.createElement("tr");
+        const edad = birthday !== undefined ? calcularEdad(birthday) : "";
+        const row = `
+            <td>${id}</td>
+            <td>${first_name} ${last_name}</td>
+            <td>${edad}</td>
+            <td>${email}</td>`;
+        tr.innerHTML = row;
+        list.append(tr);
+      };
+
+      //Validar datos insertados
+      const validarDatos = () => {
+        let msg = "";
+        let ret = true;
+        const dvAlert = document.getElementById("alertError");
+
+        const email = document.getElementById("email").value;
+        const nombre = document.getElementById("nombre").value;
+        const apellido = document.getElementById("apellido").value;
+        const fecha_nac = document.getElementById("fecha_nac").value;
+
+        //Validar el email
+        if (!email.includes("@")) {
+          msg = "El email es inválido. Por favor verifique.";
+          ret = false;
+        }
+
+        //Validar los nombres
+        if (nombre == "" || apellido == "") {
+          msg = "Debe ingresar los nombres del usuario";
+          ret = false;
+        }
+
+        //Validar fecha
+        if (fecha_nac === "") {
+          msg = "Debe ingresar una fecha de nacimiento válida";
+          ret = false;
+        } else {
+          if (calcularEdad(fecha_nac) < 15) {
+            msg = "Debes tener más de 15 años para poder registrarte.";
+            ret = false;
+          }
+        }
+
+        if (!ret) {
+          dvAlert.innerHTML = msg;
+          dvAlert.classList.remove("d-none");
+        }
+
+        return ret;
+      };
+
+      // Obtener el nuevo ID según el consecutivo del array del localStorage
+      const obtenerNewId = () => {
+        const datos = JSON.parse(window.localStorage.getItem("datos"));
+        const newId = datos.reduce((id, item) => {
+          if (item.id > id) {
+            id = item.id;
+          }
+          return id;
+        }, 1);
+
+        return newId + 1;
+      };
+
+      //Limpiar los campos del formulario
+      const limpiarCampos = () => {
+        document.getElementById("email").value = "";
+        document.getElementById("nombre").value = "";
+        document.getElementById("apellido").value = "";
+        document.getElementById("fecha_nac").value = "";
+      };
+
+      //Calcular la edad del usuario dependiendo de la fecha de nacimiento
+      const calcularEdad = (fecha_nac) => {
+        let hoy = new Date();
+        let fechaNacimiento = new Date(fecha_nac);
+        let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+        let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth();
+        if (
+          diferenciaMeses < 0 ||
+          (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+        ) {
+          edad--;
+        }
+        return edad;
+      };
+
+      // Agregar los datos del nuevo usuario en el array del localStorage
+      const agregarUsuario = ({ nombre, apellido, fecha_nac, email }) => {
+        if (!validarDatos()) {
+          return;
+        }
+        const datos = JSON.parse(window.localStorage.getItem("datos"));
+        // console.log(datos);
+
+        const newId = obtenerNewId();
+
+        const newUser = {
+          id: newId,
+          email: email,
+          first_name: nombre,
+          last_name: apellido,
+          birthday: fecha_nac,
+        };
+
+        //Insertamos los datos en el array
+        datos.push(newUser);
+        // console.log(datos);
+
+        //Insertamos los datos en la tabla HTML
+        insertarDatos(newUser);
+        limpiarCampos();
+
+        //Guardamos nuevamente los datos en el localStorage
+        window.localStorage.setItem("datos", JSON.stringify(datos));
+        document.getElementById("alertSuccess").classList.remove("d-none");
+      };
+
+      //   Cargar la información inicial desde la API de pruebas
+      const cargar = async () => {
+        $(".datepicker").datepicker({ autoclose: true, format: "yyyy/mm/dd" });
+
+        const api = "https://reqres.in/api/users?page=1";
+        const respuesta = await fetch(api);
+        const json = await respuesta.json();
+        const datos = json.data;
+        window.localStorage.setItem("datos", JSON.stringify(datos));
+
+        datos.forEach((element) => {
+          insertarDatos({
+            id: element.id,
+            first_name: element.first_name,
+            last_name: element.last_name,
+            email: element.email,
+          });
+        });
+
+        // console.log(datos);
+      };
+
+      const btnAdd = document.getElementById("btnAdd");
+
+      //Generar el guardado de la información
+      btnAdd.addEventListener("click", () => {
+        const form = document.getElementById("frm");
+        form.onsubmit = function (e) {
+          e.preventDefault();
+        };
+
+        const email = document.getElementById("email").value;
+        const nombre = document.getElementById("nombre").value;
+        const apellido = document.getElementById("apellido").value;
+        const fecha_nac = document.getElementById("fecha_nac").value;
+        document.getElementById("alertSuccess").classList.add("d-none");
+        document.getElementById("alertError").classList.add("d-none");
+
+        agregarUsuario({
+          nombre: nombre,
+          apellido: apellido,
+          fecha_nac: fecha_nac,
+          email: email,
+        });
+      });
+
+      cargar();
+    </script>
+  </body>
+</html>
