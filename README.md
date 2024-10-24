@@ -25,10 +25,10 @@ Se debe enviar en la petición un JSON con los siguientes atributos:
 Ejemplo:
 ```json
 {
-	"nombre": "Ameth",
+	"nombre": "John Doe",
 	"tipo_documento": "CC",
-	"documento": "1140847389",
-	"correo": "amethgabriel@hotmail.com"
+	"documento": "123456789",
+	"correo": "my.email@gmail.com"
 }
 ```
 ##### Respuesta
@@ -50,10 +50,10 @@ Enviar una solicitud `GET` al siguiente endpoint, enviando el JWT en la autoriza
 ```json
 {
     "id_usuario": "3",
-    "nombre": "Britney Ordoñez",
+    "nombre": "Luke Evans",
     "tipo_documento": "CC",
-    "documento": "1002163137",
-    "correo": "britneypaola@gmail.com"
+    "documento": "789456123",
+    "correo": "my.fake.email@gmail.com"
 }
 ```
 #### Registrar una nueva oferta
@@ -90,17 +90,17 @@ Puede agregar un filtro pasando el parámetro `id` con el ID de la oferta
         "usuarios": [
             {
                 "id_usuario": "1",
-                "nombre": "ameth",
+                "nombre": "John Doe",
                 "tipo_documento": "CC",
-                "documento": "1140847389",
-                "correo": "amethgabriel@hotmail.com"
+                "documento": "123456789",
+                "correo": "my.email@gmail.com"
             },
             {
                 "id_usuario": "2",
-                "nombre": "Ameth",
+                "nombre": "Luke",
                 "tipo_documento": "CC",
-                "documento": "1140847389",
-                "correo": "amethgabriel@hotmail.com"
+                "documento": "789456123",
+                "correo": "my.fake.email@gmail.com"
             }
         ]
     }
